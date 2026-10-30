@@ -1,10 +1,12 @@
 times = []
-t1 = False
 
-while not t1:
+while True:
     try:
         n = int(input("Digite o número de times: "))
-        t1 = True
+        if n <= 0:
+            print("Por favor, digite um número inteiro positivo.")
+            continue
+        break
     except ValueError:
         print("Por favor, digite um número inteiro válido.")
 

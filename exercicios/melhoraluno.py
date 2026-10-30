@@ -1,22 +1,30 @@
-t1 = False
+import math
 melhoraluno = ""
 maiornota = -1
 na = 0
 
-while not t1:
+while True:
     try:
         na = int(input("Digite o número de alunos: "))
-        t1 = True
+        if na <= 0:
+            print("Por favor, digite um número inteiro positivo.")
+            continue
+        break
     except ValueError:
         print("Por favor, digite um número inteiro válido.")
 
 for i in range(na):
-    t2 = False
-    while not t2:
+    while True:
         try: 
             nome = input(f"Digite o nome do aluno {i + 1}: ")
             nota = float(input(f"Digite a nota do aluno {i + 1}: "))
-            t2 = True
+            if not math.isfinite(nota):
+                print("A nota precisa ser um número finito.")
+                continue
+            if nota <0 :
+                print("Por favor, digite uma nota válida (não negativa).")
+                continue
+            break
         except ValueError:
             print("Por favor, digite uma nota válida.")
 

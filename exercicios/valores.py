@@ -1,22 +1,23 @@
-t1 = False
 soma = 0
 media = 0
 valoresnull = 0
 somapar = 0
 
-while not t1:
+while True:
     try:
         n = int(input("Digite um número inteiro: "))
-        t1 = True
+        if n <= 0:
+            print("Por favor, digite um número inteiro positivo.")
+            continue
+        break
     except ValueError:
         print("Por favor, digite um número inteiro válido.")
 
 for i in range(n):
-    t2 = False
-    while not t2:
+    while True:
         try:
             valor = float(input(f"Digite o valor {i + 1}: "))
-            t2 = True
+            break
         except ValueError:
             print("Por favor, digite um valor válido.")
     soma += valor

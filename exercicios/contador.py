@@ -1,10 +1,8 @@
-m = False
-
-while not m:
+while True:
     try:
         n1 = int(input("Digite o número inicial: "))
         n2 = int(input("Digite o número final: "))
-        m = True
+        break
     except ValueError:
         print("Por favor, digite números inteiros válidos.")
 

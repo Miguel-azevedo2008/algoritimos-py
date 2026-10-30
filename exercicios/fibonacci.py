@@ -1,12 +1,14 @@
-t1 = False
 n1 = 0
 n2 = 1
 n3 = 0
 
-while not t1:
+while True:
     try:
         n = int(input("Digite quantos números da sequência de Fibonacci você deseja ver: "))
-        t1 = True
+        if n <= 0:
+            print("Por favor, digite um número inteiro positivo.")
+            continue
+        break
     except ValueError:
         print("Por favor, digite um número inteiro válido.")
 
