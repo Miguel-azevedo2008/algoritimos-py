@@ -1,8 +1,6 @@
 import os
 import math
 
-cotacao = 5.12
-
 def clear():
     # Limpa o terminal após o usuário pressionar Enter.
     input("Pressione Enter para continuar...")
@@ -14,6 +12,20 @@ def formatar(valor):
     texto = f"{valor:,.2f}"
     return texto.replace(",", "#").replace(".", ",").replace("#", ".")
 
+def ler_cotacao():
+    while True:
+        try:
+            cotacao = input("Qual a cotação do dólar? ").replace(",", ".")
+            cotacao = float(cotacao)
+            if not math.isfinite(cotacao):
+                print("A cotação precisa ser um número finito.")
+                continue
+            elif cotacao <= 0:
+                print("A cotação precisa ser maior que zero.")
+                continue
+            return cotacao
+        except ValueError:
+            print("Por favor, digite um número válido.")
 
 def idade():
     # estima a idade do usuário com base no ano atual e no ano de nascimento informado.
@@ -22,7 +34,7 @@ def idade():
             ano = int(input("Em que ano estamos? "))
             data = int(input("Qual seu ano de nascimento? "))
 
-            if data > ano or ano <= 1900 or data <= 1900 or data == ano:
+            if data >= ano or ano <= 1900 or data <= 1900:
                 print("Ano inválido.")
                 continue
 
@@ -34,12 +46,12 @@ def idade():
             print("Por favor, digite um número válido.")
 
 
-def conversao():
-    # Converte reais para dólares usando a cotação definida no início do programa.
+def conversao(cotacao):
+    # Converte reais para dólares
     while True:
         try:
-            entrada = input("Quantos reais você possui? ").replace(",", ".")
-            reais = float(entrada)
+            reais = input("Quantos reais você possui? ").replace(",", ".")
+            reais = float(reais)
 
             if not math.isfinite(reais):
                 print("O valor precisa ser um número finito.")
@@ -60,8 +72,8 @@ def temperatura():
     # Converte uma temperatura de Fahrenheit para Celsius.
     while True:
         try:
-            entrada = input("Qual a temperatura atual em Fahrenheit? ").replace(",", ".")
-            f = float(entrada)
+            f = input("Qual a temperatura atual em Fahrenheit? ").replace(",", ".")
+            f = float(f)
 
             # Limite físico aproximado do zero absoluto em Fahrenheit.
             
@@ -80,7 +92,7 @@ def temperatura():
             print("Por favor, digite um número válido.")
 
 
-def imposto():
+def imposto(cotacao):
     # Simula o Imposto de Importação para pessoa física em compras
     # de plataformas certificadas pelo Remessa Conforme.
     # Até US$ 50: alíquota de 0%.
@@ -88,22 +100,22 @@ def imposto():
     # O cálculo não inclui ICMS e utiliza a cotação definida no programa.
     while True:
         try:
-            entrada = input("Quantos dólares foram gastos? ").replace(",", ".")
-            gasto = float(entrada)
+            dolares = input("Quantos dólares foram gastos? ").replace(",", ".")
+            dolares = float(dolares)
 
-            if not math.isfinite(gasto):
+            if not math.isfinite(dolares):
                 print("O valor precisa ser um número finito.")
                 continue
-            elif gasto < 0:
+            elif dolares < 0:
                 print("Valor inválido.")
                 continue
-            if gasto > 3000:
+            if dolares > 3000:
                 print("Valor acima do limite.")
                 continue
-            if gasto <= 50:
+            if dolares <= 50:
                 print("Não haverá Imposto de Importação.")
             else:
-                taxa = (gasto * 0.60 - 30) * cotacao
+                taxa = (dolares * 0.60 - 30) * cotacao
                 print(f"O Imposto de Importação será de {formatar(taxa)}.")
             break
 
@@ -116,29 +128,27 @@ def emprestimo():
     # A taxa informada é aplicada por período, conforme o número de parcelas.
     while True:
         try:
-            entrada_v = input("Qual valor será preciso? ").replace(",", ".")
-            entrada_t = input("Qual a taxa em %? ").replace(",", ".")
-
-            taxa = float(entrada_t) / 100
-            valor = float(entrada_v)
-            parcelas = int(input("Em quantas parcelas você pode pagar? "))
-
+            valor = input("Qual valor será preciso? ").replace(",", ".")
+            valor = float(valor)
             if not math.isfinite(valor):
                 print("O valor precisa ser um número finito.")
                 continue
             elif valor <= 0:
                 print("Valor inválido.")
                 continue
-            
-            if parcelas <= 0 or parcelas > 50:
-                print("Número de parcelas inválido.")
-                continue
 
+            taxa = input("Qual a taxa por período em %? ").replace(",", ".")
+            taxa = float(taxa) / 100
             if not math.isfinite(taxa):
                 print("A taxa precisa ser um número finito.")
                 continue
             elif taxa < 0 or taxa > 0.50:
                 print("Taxa inválida.")
+                continue
+
+            parcelas = int(input("Em quantas parcelas você pode pagar? "))
+            if parcelas <= 0 or parcelas > 50:
+                print("Número de parcelas inválido.")
                 continue
             
             # Fórmula de juros simples:
@@ -154,49 +164,3 @@ def emprestimo():
 
         except ValueError:
             print("Por favor, digite um número válido.")
-
-
-if __name__ == "__main__":
-    while True:
-        print("==== MENU ====")
-        print("1 - Idade")
-        print("2 - Dólares")
-        print("3 - Temperatura")
-        print("4 - Imposto")
-        print("5 - Empréstimo")
-        print("6 - Sair")
-
-        try:
-            acao = int(input("Digite sua opção: "))
-
-            if acao == 1:
-                idade()
-                clear()
-
-            elif acao == 2:
-                conversao()
-                clear()
-
-            elif acao == 3:
-                temperatura()
-                clear()
-
-            elif acao == 4:
-                imposto()
-                clear()
-
-            elif acao == 5:
-                emprestimo()
-                clear()
-
-            elif acao == 6:
-                os.system("cls" if os.name == "nt" else "clear")
-                break
-
-            else:
-                print("Opção inválida. Tente novamente.")
-                clear()
-
-        except ValueError:
-            print("Por favor, digite um número válido.")
-            clear()
